@@ -12,7 +12,11 @@ module.exports = () => {
         try {
             let result = await ctx.request.authing.checkLoginStatus(token);
             if(result.status === true) {
-                await next();
+                try {
+                    await next();
+                } catch (e) {
+                    console.log(e)
+                }
             } else {
                 ctx.status = 401;
                 ctx.body = {errno: 2402, msg: result.message, code: result.code, data: null};
